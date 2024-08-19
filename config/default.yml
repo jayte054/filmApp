@@ -1,0 +1,11 @@
+server:
+  port: 3006
+
+db:
+  type: "postgres"
+  port: 5433
+  database: "film-app"
+
+jwt:
+  secret: "film001"
+  expiresIn: 3600 
