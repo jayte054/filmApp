@@ -32,6 +32,9 @@ let AuthController = class AuthController {
     async userSignIn(signInDto) {
         return await this.authService.userSignIn(signInDto);
     }
+    async fetchUsers(user) {
+        return await this.authService.fetchUsers(user);
+    }
     async updateUser(user, updateUserDto, authId) {
         return await this.authService.updateUser(user, updateUserDto, authId);
     }
@@ -58,6 +61,14 @@ __decorate([
     __metadata("design:paramtypes", [authDto_1.SignInDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "userSignIn", null);
+__decorate([
+    (0, common_1.Get)('/fetchUsers'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
+    __param(0, (0, getUserDecorator_1.GetUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [authEntity_1.AuthEntity]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "fetchUsers", null);
 __decorate([
     (0, common_1.Patch)('/updateUser/:authId'),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),

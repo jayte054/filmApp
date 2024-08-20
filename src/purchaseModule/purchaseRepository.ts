@@ -13,6 +13,7 @@ export class PurchaseRepository extends Repository<PurchaseEntity> {
         private filmService: FilmService
     ) { super (PurchaseEntity, dataSource.createEntityManager())}
 
+    //purchase film 
     async purchaseFilm(user: AuthEntity, filmId: string): Promise<PurchaseObject> {
         // const {title, film_Id, price} = purchaseFilmDto
         console.log(user, filmId)
@@ -30,7 +31,7 @@ export class PurchaseRepository extends Repository<PurchaseEntity> {
                     year: 'numeric',
                     });
         purchaseFilm.user = user;
-
+        console.log(purchaseFilm)
         try {
             await purchaseFilm.save()
             return {
@@ -46,6 +47,7 @@ export class PurchaseRepository extends Repository<PurchaseEntity> {
         }
     }
 
+    //fetch purchased films uniquw to indivisual users
     async getPurchases(user:AuthEntity): Promise<PurchaseEntity[]> {
         const query = await this.createQueryBuilder('title')
         query.where("title.userAuthId = :userAuthId", {userAuthId: user.authId})
@@ -58,6 +60,7 @@ export class PurchaseRepository extends Repository<PurchaseEntity> {
         }
     }
 
+    //fetchPurchased film without requiring authorization, used internally, within the app
     async _getPurchases(): Promise<PurchaseEntity[]> {
          const query = await this.createQueryBuilder('title')
 
@@ -69,6 +72,7 @@ export class PurchaseRepository extends Repository<PurchaseEntity> {
         }
     }
 
+    // fetch number of films purchase by particular users
     async getFilmPurchaseByUserId(user: AuthEntity, userAuthId: string) {
         if (user.isAdmin !== true) {
             throw new ConflictException("not allowed")

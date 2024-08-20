@@ -9,5 +9,6 @@ export declare class AuthModuleRepository extends Repository<AuthEntity> {
     registerAdminUser(authDto: AuthDto): Promise<AuthObject>;
     userSignIn(signInDto: SignInDto): Promise<SignInObject>;
     fetchUserById(authId: string): Promise<AuthEntity>;
+    fetchUsers(user: AuthEntity): Promise<AuthEntity[]>;
     updateUser(user: AuthEntity, updateUserDto: UpdateUserDto, authId: string): Promise<AuthEntity>;
 }

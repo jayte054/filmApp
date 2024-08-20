@@ -11,6 +11,7 @@ export class FilmRepository extends Repository<FilmEntity> {
         private dataSource: DataSource
     ) { super (FilmEntity, dataSource.createEntityManager())}
 
+    // create a film with all the necessay criteria for purchase
     async createFilm(createFilmDto: CreateFilmDto, user: AuthEntity): Promise<FilmObject> {
         if(user.isAdmin === false) {
             throw new InternalServerErrorException(`user ${user.authId} not authorized to create films`)
@@ -46,6 +47,7 @@ export class FilmRepository extends Repository<FilmEntity> {
 
     }
 
+    // fetch films
     async getFilm(user: AuthEntity): Promise<FilmEntity[]> {
         const queryBuilder = await this.createQueryBuilder('title');
         queryBuilder.where("title.userAuthId = :userAuthId", {userAuthId: user.authId})
@@ -60,6 +62,20 @@ export class FilmRepository extends Repository<FilmEntity> {
 
     }
 
+      async _getFilm(): Promise<FilmEntity[]> {
+        const queryBuilder = await this.createQueryBuilder('title');
+        
+        const films = await queryBuilder.getMany();
+
+        try{
+            return films
+        } catch (error) {
+            throw new InternalServerErrorException(`flms not found`)
+        }
+
+    }
+
+    //fetch film with id
     async getFilmWithId(user: AuthEntity, filmId: string,): Promise<FilmEntity> {
          const filmWithId = await this.findOne({
             where: {
@@ -79,6 +95,7 @@ export class FilmRepository extends Repository<FilmEntity> {
     }
 
 
+    //fetch film by genre
     async getFilmByGenre(user: AuthEntity, genre: string) {
 
         if (user.isAdmin !== true) {
@@ -104,6 +121,7 @@ export class FilmRepository extends Repository<FilmEntity> {
     return filmObject;
 }
 
+//fetch film with Id to be used internally
        async _getFilmWithId(filmId: string,): Promise<FilmEntity> {
          const filmWithId = await this.findOne({
             where: {
@@ -121,6 +139,7 @@ export class FilmRepository extends Repository<FilmEntity> {
          }
     }
 
+    //update information about any particular film
     async updateFilm(user: AuthEntity, filmId: string, updateFilmDto: UpdateFilmDto): Promise<FilmEntity> {
         const {title, genre, price, description} = updateFilmDto;
 
@@ -139,6 +158,7 @@ export class FilmRepository extends Repository<FilmEntity> {
         }
     }
 
+    //delete any film in particluar
     async deleteFilm(user: AuthEntity, filmId: string) {
         try{
             const film = await this.delete({

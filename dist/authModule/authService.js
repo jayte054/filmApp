@@ -52,6 +52,9 @@ let AuthService = class AuthService {
             throw new common_1.InternalServerErrorException("failed to sign in");
         }
     }
+    async fetchUsers(user) {
+        return await this.authModuleRepository.fetchUsers(user);
+    }
     async updateUser(user, updateUserDto, authId) {
         return await this.authModuleRepository.updateUser(user, updateUserDto, authId);
     }

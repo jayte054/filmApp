@@ -29,6 +29,9 @@ let FilmController = class FilmController {
     async getFilms(user) {
         return await this.filmService.getFilm(user);
     }
+    async _getFilms() {
+        return await this.filmService._getFilm();
+    }
     async getFilmByGenre(user, genre) {
         return await this.filmService.getFilmByGenre(user, genre);
     }
@@ -63,6 +66,13 @@ __decorate([
     __metadata("design:paramtypes", [authEntity_1.AuthEntity]),
     __metadata("design:returntype", Promise)
 ], FilmController.prototype, "getFilms", null);
+__decorate([
+    (0, common_1.Get)('/_getFilm'),
+    (0, common_1.UsePipes)(common_1.ValidationPipe),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], FilmController.prototype, "_getFilms", null);
 __decorate([
     (0, common_1.Get)('/getFilmByGenre/:genre'),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),

@@ -10,5 +10,6 @@ export declare class AuthController {
     userSignIn(signInDto: SignInDto): Promise<{
         accessToken: string;
     }>;
+    fetchUsers(user: AuthEntity): Promise<AuthEntity[]>;
     updateUser(user: AuthEntity, updateUserDto: UpdateUserDto, authId: string): Promise<AuthEntity>;
 }

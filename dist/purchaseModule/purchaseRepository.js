@@ -36,6 +36,7 @@ let PurchaseRepository = class PurchaseRepository extends typeorm_1.Repository {
             year: 'numeric',
         });
         purchaseFilm.user = user;
+        console.log(purchaseFilm);
         try {
             await purchaseFilm.save();
             return {

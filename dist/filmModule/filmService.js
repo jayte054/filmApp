@@ -26,6 +26,9 @@ let FilmService = class FilmService {
     async getFilm(user) {
         return await this.filmRepository.getFilm(user);
     }
+    async _getFilm() {
+        return await this.filmRepository._getFilm();
+    }
     async getFilmWithId(user, filmId) {
         return await this.filmRepository.getFilmWithId(user, filmId);
     }

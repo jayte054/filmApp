@@ -13,9 +13,6 @@ export class AuthDto {
   @IsNotEmpty()
   password: string;
 
-  @IsString()
-  @IsNotEmpty()
-  isAdmin: boolean;
 }
 
 export class SignInDto {

@@ -48,6 +48,10 @@ export class AuthService {
 
    }
 
+   async fetchUsers(user: AuthEntity): Promise<AuthEntity[]> {
+    return await this.authModuleRepository.fetchUsers(user)
+   }
+
    async updateUser(user: AuthEntity, updateUserDto: UpdateUserDto, authId: string): Promise<AuthEntity> {
     return await this.authModuleRepository.updateUser(user, updateUserDto, authId);
    }

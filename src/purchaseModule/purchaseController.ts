@@ -21,7 +21,7 @@ export class PurchaseController {
         console.log(filmId)
         return await this.purchaseService.purchaseFilm(
             user,
-            filmId
+            filmId,
         )
     }
 

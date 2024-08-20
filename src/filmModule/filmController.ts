@@ -28,6 +28,13 @@ export class FilmController {
         return await this.filmService.getFilm(user)
     }
 
+    @Get('/_getFilm')
+    // @UseGuards(AuthGuard())
+    @UsePipes(ValidationPipe)
+    async _getFilms(): Promise<FilmEntity[]> {
+        return await this.filmService._getFilm()
+    }
+
     @Get('/getFilmByGenre/:genre')
     @UseGuards(AuthGuard())
     @UsePipes(ValidationPipe)

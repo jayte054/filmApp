@@ -13,8 +13,9 @@ export class AuthModuleRepository extends Repository<AuthEntity> {
         super(AuthEntity, dataSource.createEntityManager())   
     }
 
+    //register user
     async registerUser( authDto: AuthDto): Promise<AuthObject> {
-        const {fullName, email, password, isAdmin} = authDto;
+        const {fullName, email, password} = authDto;
 
         const newUser = new AuthEntity();
 
@@ -42,8 +43,9 @@ export class AuthModuleRepository extends Repository<AuthEntity> {
         }
     }
 
+    //register admin
      async registerAdminUser( authDto: AuthDto): Promise<AuthObject> {
-        const {fullName, email, password, isAdmin} = authDto;
+        const {fullName, email, password,} = authDto;
 
         const newUser = new AuthEntity();
 
@@ -72,6 +74,7 @@ export class AuthModuleRepository extends Repository<AuthEntity> {
     }
 
 
+    //userSignin
         async userSignIn(signInDto: SignInDto): Promise<SignInObject> {
             const {email, password} = signInDto;
 
@@ -99,6 +102,7 @@ export class AuthModuleRepository extends Repository<AuthEntity> {
             }
         }
 
+        // fetch user by id 
         async fetchUserById(authId: string): Promise<AuthEntity> {
             const user = await this.findOne({
                 where: {
@@ -117,11 +121,28 @@ export class AuthModuleRepository extends Repository<AuthEntity> {
                 }
         }
 
+        async fetchUsers(user: AuthEntity): Promise<AuthEntity[]> {
+                if(user.isAdmin !== true) {
+                    throw new ConflictException("not allowed")
+                }
+
+                try{
+                const queryBuilder = await this.createQueryBuilder('fullName')
+                    const users = await queryBuilder.getMany()
+                    return users
+                } catch (error) {
+                    console.log(error)
+                    throw new InternalServerErrorException("not found")
+                }
+        }
+
+
+        //update user details such as fullname and email
        async updateUser(user: AuthEntity, updateUserDto: UpdateUserDto, authId: string): Promise<AuthEntity> {
             if (user.authId !== authId) {
                 throw new ConflictException("not allowed")
             }
-            
+
             const {fullName, email} = updateUserDto;
 
             const _user = await this.fetchUserById(authId);

@@ -61,6 +61,16 @@ let FilmRepository = class FilmRepository extends typeorm_1.Repository {
             throw new common_1.InternalServerErrorException(`flms not found`);
         }
     }
+    async _getFilm() {
+        const queryBuilder = await this.createQueryBuilder('title');
+        const films = await queryBuilder.getMany();
+        try {
+            return films;
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException(`flms not found`);
+        }
+    }
     async getFilmWithId(user, filmId) {
         const filmWithId = await this.findOne({
             where: {

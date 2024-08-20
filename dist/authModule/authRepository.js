@@ -43,7 +43,7 @@ let AuthModuleRepository = class AuthModuleRepository extends typeorm_1.Reposito
         this.dataSource = dataSource;
     }
     async registerUser(authDto) {
-        const { fullName, email, password, isAdmin } = authDto;
+        const { fullName, email, password } = authDto;
         const newUser = new authEntity_1.AuthEntity();
         const salt = await bcrypt.genSalt();
         newUser.fullName = fullName;
@@ -69,7 +69,7 @@ let AuthModuleRepository = class AuthModuleRepository extends typeorm_1.Reposito
         }
     }
     async registerAdminUser(authDto) {
-        const { fullName, email, password, isAdmin } = authDto;
+        const { fullName, email, password, } = authDto;
         const newUser = new authEntity_1.AuthEntity();
         const salt = await bcrypt.genSalt();
         newUser.fullName = fullName;
@@ -133,6 +133,20 @@ let AuthModuleRepository = class AuthModuleRepository extends typeorm_1.Reposito
         }
         catch (error) {
             throw new common_1.InternalServerErrorException('failed to retrieve user details');
+        }
+    }
+    async fetchUsers(user) {
+        if (user.isAdmin !== true) {
+            throw new common_1.ConflictException("not allowed");
+        }
+        try {
+            const queryBuilder = await this.createQueryBuilder('fullName');
+            const users = await queryBuilder.getMany();
+            return users;
+        }
+        catch (error) {
+            console.log(error);
+            throw new common_1.InternalServerErrorException("not found");
         }
     }
     async updateUser(user, updateUserDto, authId) {

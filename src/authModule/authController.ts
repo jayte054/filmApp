@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Patch, Post, UseGuards, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post, UseGuards, ValidationPipe } from "@nestjs/common";
 import { AuthGuard } from '@nestjs/passport';
 import { AuthDto, SignInDto, UpdateUserDto } from "./authDto";
 import { AuthEntity } from "./authEntity";
@@ -29,6 +29,12 @@ export class AuthController {
         @Body(ValidationPipe) signInDto: SignInDto
     ):Promise<{accessToken: string}> {
         return await this.authService.userSignIn(signInDto);
+    }
+
+    @Get('/fetchUsers')
+    @UseGuards(AuthGuard())
+    async fetchUsers(@GetUser() user: AuthEntity): Promise<AuthEntity[]> {
+        return await this.authService.fetchUsers(user)
     }
 
     @Patch('/updateUser/:authId')

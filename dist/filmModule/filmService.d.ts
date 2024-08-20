@@ -8,6 +8,7 @@ export declare class FilmService {
     constructor(filmRepository: FilmRepository);
     createFilm(createFilmDto: CreateFilmDto, user: AuthEntity): Promise<FilmObject>;
     getFilm(user: AuthEntity): Promise<FilmEntity[]>;
+    _getFilm(): Promise<FilmEntity[]>;
     getFilmWithId(user: AuthEntity, filmId: string): Promise<FilmEntity>;
     getFilmByGenre(user: AuthEntity, genre: string): Promise<{
         [key: string]: any[];

@@ -29,11 +29,6 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], AuthDto.prototype, "password", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", Boolean)
-], AuthDto.prototype, "isAdmin", void 0);
 class SignInDto {
 }
 exports.SignInDto = SignInDto;

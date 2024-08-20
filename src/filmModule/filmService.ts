@@ -20,6 +20,10 @@ export class FilmService {
         return await this.filmRepository.getFilm(user);
     }
 
+    async _getFilm(): Promise<FilmEntity[]> {
+        return await this.filmRepository._getFilm();
+    }
+
      async getFilmWithId(user: AuthEntity, filmId: string): Promise<FilmEntity> {
         return await this.filmRepository.getFilmWithId(user, filmId);
     }
